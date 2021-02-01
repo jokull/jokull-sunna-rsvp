@@ -1,0 +1,31 @@
+# macOS
+.DS_Store
+
+# Sapper
+/__sapper__/
+/node_modules/
+/src/node_modules/@sapper/
+dist
+yarn-error.log
+yarn-error.log
+yarn.lock
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+
+# VSCode
+.vscode
+
+# Poetry
+poetry.lock
+
+# Project
+.cache
+.env
+.pytest_cache
+
+# SQLite
+database.db
