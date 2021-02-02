@@ -3,7 +3,7 @@
   import { onMount } from "svelte";
 
   onMount(async () => {
-    const res = await fetch("/_responses");
+    const res = await fetch("/api/responses");
     responses = await res.json();
   });
 </script>

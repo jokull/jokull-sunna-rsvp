@@ -38,7 +38,7 @@
     validationErrors = [];
     loading = true;
     try {
-      const res = await fetch(`/responses`, {
+      const res = await fetch("/api/responses", {
         method: "POST",
         header: { "content-type": "application/json" },
         body: JSON.stringify({
@@ -59,6 +59,7 @@
       const responseData = await res.json();
       if (status === 422) {
         validationErrors = responseData.detail;
+        return;
       } else {
         success = true;
       }
