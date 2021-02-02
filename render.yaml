@@ -5,10 +5,10 @@ services:
     region: frankfurt
     envVars:
       - key: DATABASE_URL
-        value: sqlite://./sqlite/database.db
+        value: sqlite:////var/data/database.db
     disk:
       name: sqlite-data
-      mountPath: ./sqlite
+      mountPath: /var/data
       sizeGB: 5
-    buildCommand: poetry install && yarn install && yarn run build
+    buildCommand: NODE_ENV=production poetry install && poetry add gunicorn && yarn install && yarn run export
     startCommand: gunicorn -w 1 -k uvicorn.workers.UvicornWorker api:app
