@@ -2,7 +2,7 @@
   export let label;
   export let error = null;
   export let autocapitalize = "on";
-  export let value = undefined;
+  export let value;
 </script>
 
 <label class="block">

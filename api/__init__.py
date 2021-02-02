@@ -88,9 +88,10 @@ def read_response(phone: int, db: Session = Depends(get_db)):
 def create_response(response: ResponseSchema, db: Session = Depends(get_db)):
     db_response = db.query(models.Response).get(response.phone)
     if db_response is None:
-        db_response = models.Response(phone=response.phone, email=response.email)
+        db_response = models.Response(phone=response.phone, email=response.email, comment=response.comment or None)
     else:
         db_response.email = response.email
+        db_response.comment = response.comment or None
         for guest in (db_response.guests or []):
             db.delete(guest)
     db.add(db_response)
