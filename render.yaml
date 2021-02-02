@@ -2,7 +2,7 @@ services:
   - type: web
     name: jokull-sunna
     env: python
-    region: oregon
+    region: frankfurt
     envVars:
       - key: DATABASE_URL
         value: sqlite://./sqlite/database.db
@@ -11,4 +11,4 @@ services:
       mountPath: ./sqlite
       sizeGB: 5
     buildCommand: poetry install && yarn install && yarn run build
-    startCommand: gunicorn -w 1 -k uvicorn.workers.UvicornWorker server:app
+    startCommand: gunicorn -w 1 -k uvicorn.workers.UvicornWorker api:app
