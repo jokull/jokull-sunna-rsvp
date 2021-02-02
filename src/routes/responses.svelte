@@ -8,6 +8,10 @@
   });
 </script>
 
+<svelte:head>
+  <title>Brúðkaupsgestir</title>
+</svelte:head>
+
 <div class="rounded-lg shadow-lg m-8 p-12 bg-white">
   {#if responses.length === 0}
     Loading
