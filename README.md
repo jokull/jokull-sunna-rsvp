@@ -10,3 +10,17 @@ In non-`DEBUG` mode a static server serves from `__sapper__/export` instead.
 Sapper has Tailwind CSS configured.
 
 FastAPI uses SQLite for data.
+
+## Start
+
+```bash
+yarn install
+poetry install
+```
+
+Start dev servers
+
+```bash
+yarn run dev  # in tab 1
+DEBUG=true poetry run uvicorn api:app --host 0.0.0.0 --reload-dir api  # in tab 2
+```

@@ -9,9 +9,9 @@ Base = declarative_base()
 
 
 class DietChoices(Choices):
-    vegan = "Vegan"
-    pescatarian = "Fisk"
-    meat = "Kjöt"
+    vegan = "vegan"
+    pescatarian = "pescatarian"
+    meat = "meat"
 
 
 class Response(Base):
