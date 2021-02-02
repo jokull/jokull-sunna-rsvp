@@ -1,14 +1,13 @@
+import enum
 from sqlalchemy import Column, DateTime, Enum, ForeignKey, Integer, String, func
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relation
 
 
-from .choices import Choices
-
 Base = declarative_base()
 
 
-class DietChoices(Choices):
+class DietChoices(enum.Enum):
     vegan = "vegan"
     pescatarian = "pescatarian"
     meat = "meat"

@@ -70,12 +70,6 @@ class DatabaseResponseSchema(ResponseSchema):
         orm_mode = True
 
 
-@app.get("/_create_tables")
-def _create_tables():
-    models.Base.metadata.create_all(bind=engine)
-    return ""
-
-
 @app.get("/_responses", response_model=List[DatabaseResponseSchema])
 def get_responses(db: Session = Depends(get_db)):
     return db.query(models.Response).all()
@@ -110,7 +104,6 @@ def create_response(response: ResponseSchema, db: Session = Depends(get_db)):
     )
     db.commit()
     db.refresh(db_response)
-    print(db_response, db_response.guests)
     return db_response
 
 
