@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "license": "MIT",
   "scripts": {
-    "dev": "sapper dev",
+    "dev": "sapper dev --port 3010",
     "build": "sapper build --legacy",
     "export": "sapper export --legacy --entry '/ responses'",
     "start": "node __sapper__/build"

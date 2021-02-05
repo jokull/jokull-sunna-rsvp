@@ -73,16 +73,16 @@
 </script>
 
 <div class="text-black">
-  <div class="text-4xl mb-8">RSVP</div>
+  <div class="text-4xl mb-8 font-thin">RSVP</div>
   <form>
     {#if success}
       <span>Takk! Hlökkum til að sjá þig</span>
     {:else}
-      <div class="flex">
-        <div class="mb-4 w-28">
+      <div class="flex mb-4">
+        <div class="w-28">
           <TextInput error={phoneError} bind:value={phone} label="Sími" />
         </div>
-        <div class="mb-8 ml-4 flex-grow">
+        <div class="ml-4 flex-grow">
           <TextInput
             error={emailError}
             bind:value={email}
@@ -91,10 +91,10 @@
           />
         </div>
       </div>
-      <div class="my-4"><Guest label="Nafn" bind:value={guest} /></div>
-      <div class="my-4"><Guest label="Nafn +1" bind:value={guest1} /></div>
-      <div class="my-4"><Guest label="Nafn +2" bind:value={guest2} /></div>
-      <div class="my-4">
+      <div class="mb-6"><Guest label="Nafn" bind:value={guest} /></div>
+      <div class="mb-6"><Guest label="Nafn +1" bind:value={guest1} /></div>
+      <div class="mb-6"><Guest label="Nafn +2" bind:value={guest2} /></div>
+      <div class="mb-6">
         <TextInput bind:value={comment} label="Athugasemdir" />
       </div>
 
@@ -102,7 +102,7 @@
         <span>Eitthvað fór úrskeðis - hringdu í Jökul! 6161339</span>
       {/if}
 
-      <div class="my-16 sm:mb-0">
+      <div class="mt-16 sm:mb-0">
         {#if loading}
           <span>Augnablik ...</span>
         {:else}

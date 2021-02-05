@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        serif: '"GFS Didot", ui-serif',
+        serif: '"Crimson Pro", ui-serif, serif',
       },
     },
   },

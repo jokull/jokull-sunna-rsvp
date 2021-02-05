@@ -10,12 +10,12 @@
   }
 </script>
 
-<div class="flex h-24">
-  <div class="mt-2 flex-grow">
+<div class="flex">
+  <div class="flex-grow">
     <TextInput {label} bind:value={value.name} autocapitalize={"words"} />
   </div>
   {#if value && value.name}
-    <div class="mt-2 ml-2 w-42">
+    <div class="ml-2 w-42">
       <FoodPreference bind:value={value.diet} />
     </div>
   {/if}
