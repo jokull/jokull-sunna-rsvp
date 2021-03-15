@@ -6,7 +6,7 @@
 </script>
 
 <label class="block">
-  <span class="">{label}</span>
+  <span class="block">{label}</span>
   <input
     type="text"
     {autocapitalize}

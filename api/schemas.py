@@ -15,7 +15,6 @@ class DatabaseGuest(Guest):
 
 
 class Response(BaseModel):
-    phone: int
     email: str
     comment: Optional[str] = None
     guests: List[Guest] = []

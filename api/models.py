@@ -16,8 +16,7 @@ class DietChoices(enum.Enum):
 class Response(Base):
     __tablename__ = "responses"
     created = Column(DateTime, server_default=func.now())
-    phone = Column(Integer, primary_key=True, index=True)
-    email = Column(String)
+    email = Column(String, primary_key=True)
     comment = Column(String)
 
 
@@ -26,6 +25,6 @@ class Guest(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String)
     diet = Column(Enum(DietChoices))
-    response_phone = Column(Integer, ForeignKey(Response.phone))
+    response_email = Column(Integer, ForeignKey(Response.email))
 
     response = relation(Response, backref="guests")

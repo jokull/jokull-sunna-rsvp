@@ -6,8 +6,6 @@
   let success = false;
   let error = null;
   let validationErrors = [];
-  let phone;
-  let phoneError;
   let email;
   let emailError;
   let comment;
@@ -18,9 +16,7 @@
   $: valid = !!(
     [guest, guest1, guest2].find((g) => {
       return g && g.name;
-    }) &&
-    phone &&
-    email
+    }) && email
   );
 
   const getError = (key, errors) => {
@@ -30,7 +26,6 @@
     return error ? error.msg : null;
   };
 
-  $: phoneError = getError("phone", validationErrors);
   $: emailError = getError("email", validationErrors);
 
   const createResponse = async () => {
@@ -42,7 +37,6 @@
         method: "POST",
         header: { "content-type": "application/json" },
         body: JSON.stringify({
-          phone: phone,
           email: email,
           comment: comment,
           guests: [guest, guest1, guest2].filter((g) => {
@@ -73,27 +67,23 @@
 </script>
 
 <div class="text-black">
-  <div class="text-4xl mb-8 font-thin">RSVP</div>
+  <div class="text-4xl mb-8 font-thin tracking-widest">RSVP</div>
   <form>
     {#if success}
       <span>Takk! Hlökkum til að sjá þig</span>
     {:else}
-      <div class="flex mb-4">
-        <div class="w-28">
-          <TextInput error={phoneError} bind:value={phone} label="Sími" />
-        </div>
-        <div class="ml-4 flex-grow">
-          <TextInput
-            error={emailError}
-            bind:value={email}
-            label="Netfang"
-            autocapitalize={"off"}
-          />
-        </div>
-      </div>
       <div class="mb-6"><Guest label="Nafn" bind:value={guest} /></div>
-      <div class="mb-6"><Guest label="Nafn +1" bind:value={guest1} /></div>
-      <div class="mb-6"><Guest label="Nafn +2" bind:value={guest2} /></div>
+      <div class="mb-6">
+        <Guest label="Nafn maka" bind:value={guest1} />
+      </div>
+      <div class="mb-8">
+        <TextInput
+          error={emailError}
+          bind:value={email}
+          label="Netfang"
+          autocapitalize={"off"}
+        />
+      </div>
       <div class="mb-6">
         <TextInput bind:value={comment} label="Athugasemdir" />
       </div>

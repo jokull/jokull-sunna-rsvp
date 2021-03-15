@@ -22,7 +22,6 @@
       {#each responses as response}
         <div>
           <div class="font-bold font-lg">{response.email}</div>
-          <div class="font-light text-sm mb-2">S: {response.phone}</div>
           {#each response.guests as guest}
             <div>
               <div>
