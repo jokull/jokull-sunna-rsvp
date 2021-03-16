@@ -32,17 +32,12 @@ def create_response(response: schemas.Response, db: Session = Depends(get_db)):
             email=email, comment=response.comment or None
         )
     else:
-        db_response.email = email
         db_response.comment = response.comment or None
         for guest in db_response.guests or []:
             db.delete(guest)
     db.add(db_response)
-    db.add_all(
-        [
-            models.Guest(name=g.name, diet=g.diet, response_email=response.email)
-            for g in response.guests
-        ]
-    )
+    for guest in response.guests:
+        db.add(models.Guest(name=guest.name, diet=guest.diet, response_email=response.email))
     db.commit()
     db.refresh(db_response)
     return db_response
