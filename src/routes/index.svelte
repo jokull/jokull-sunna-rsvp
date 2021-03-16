@@ -55,7 +55,6 @@
           </div>
         </div>
       </div>
-
       <div class="m-6 flex flex-col flex-grow md:max-w-xs justify-around">
         <Form />
       </div>
