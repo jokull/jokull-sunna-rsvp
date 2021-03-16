@@ -35,7 +35,7 @@
               <span class="italic">Kolabrautinni</span> í Hörpu.
             </p>
             <p class="mb-8">
-              Það væri okkur sönn ánægja ef þú gætir séð þér fært að mæta og
+              Það væri okkur sönn ánægja ef þið sæjuð ykkur fært að mæta og
               fagna þessum merkisdegi með okkur.
             </p>
             <p class="mb-8">
