@@ -10,5 +10,5 @@ services:
       name: sqlite-data
       mountPath: /var/data
       sizeGB: 5
-    buildCommand: NODE_ENV=production poetry install --no-dev && pip install gunicorn && yarn install --production=false && yarn run export
+    buildCommand: NODE_ENV=production poetry install --no-dev && pip install gunicorn && yarn install --production=false && node_modules/.bin/sapper export --legacy --entry '/ responses'
     startCommand: gunicorn -w 1 -k uvicorn.workers.UvicornWorker api:app
