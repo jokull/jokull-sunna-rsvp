@@ -25,7 +25,7 @@ def read_response(email: str, db: Session = Depends(get_db)):
 
 @app.post("/responses", response_model=schemas.DatabaseResponse)
 def create_response(response: schemas.Response, db: Session = Depends(get_db)):
-    email = response.email.strip()
+    email = response.email.strip().lower()
     db_response = db.get(models.Response, email)
     if db_response is None:
         db_response = models.Response(
@@ -37,7 +37,7 @@ def create_response(response: schemas.Response, db: Session = Depends(get_db)):
             db.delete(guest)
     db.add(db_response)
     for guest in response.guests:
-        db.add(models.Guest(name=guest.name, diet=guest.diet, response_email=response.email))
+        db.add(models.Guest(name=guest.name, diet=guest.diet, response_email=email))
     db.commit()
     db.refresh(db_response)
     return db_response
