@@ -4,6 +4,12 @@
 
 <svelte:head>
   <title>Jökull ♡ Sunna</title>
+  <meta property="og:title" content="Jökull ♡ Sunna" />
+  <meta property="og:url" content="https://brudkaup.solberg.is/" />
+  <meta
+    property="og:image"
+    content="https://brudkaup.solberg.is/opengraph.png"
+  />
 </svelte:head>
 
 <div class="h-screen">
