@@ -4,8 +4,7 @@ from typing import Optional
 
 from sqlalchemy import Column, DateTime, Enum, ForeignKey, Integer, String, func
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relation
-from sqlalchemy.orm.relationships import RelationshipProperty
+from sqlalchemy.orm import relationship
 
 Base = declarative_base()
 
@@ -19,8 +18,10 @@ class DietChoices(enum.Enum):
 class Response(Base):
     __tablename__ = "responses"
     created: dt.datetime = Column(DateTime, server_default=func.now(), nullable=False)
-    email: str = Column(String, primary_key=True)
+    email: str = Column(String, primary_key=True, unique=True)
     comment: Optional[str] = Column(String)
+
+    guests: list["Guest"] = relationship("Guest")
 
 
 class Guest(Base):
@@ -30,4 +31,4 @@ class Guest(Base):
     diet: DietChoices = Column(Enum(DietChoices), nullable=False)
     response_email: str = Column(String, ForeignKey(Response.email), nullable=False)
 
-    response: Response = relation(Response, uselist=False, backref="guests")
+    response: Response = relationship(Response, lazy="joined")
