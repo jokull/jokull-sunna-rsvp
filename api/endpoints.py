@@ -12,7 +12,11 @@ app = FastAPI()
 
 
 async def _get_response(db: AsyncSession, email: str) -> Optional[models.Response]:
-    stmt = select(models.Response).where(models.Response == email)
+    stmt = (
+        select(models.Response)
+        .where(models.Response.email == email)
+        .options(selectinload(models.Response.guests))
+    )
     return (await db.execute(stmt)).scalars().first()
 
 
@@ -46,7 +50,7 @@ async def create_response(
     else:
         db_response.comment = response.comment or None
         for guest in db_response.guests or []:
-            db.delete(guest)
+            await db.delete(guest)
     db.add(db_response)
     for guest in response.guests:
         db.add(models.Guest(name=guest.name, diet=guest.diet, response_email=email))
