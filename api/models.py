@@ -1,6 +1,6 @@
 import datetime as dt
 import enum
-from typing import Optional
+from typing import Optional, List
 
 from sqlalchemy import Column, DateTime, Enum, ForeignKey, Integer, String, func
 from sqlalchemy.ext.declarative import declarative_base
@@ -21,7 +21,7 @@ class Response(Base):
     email: str = Column(String, primary_key=True, unique=True)
     comment: Optional[str] = Column(String)
 
-    guests: list["Guest"] = relationship("Guest")
+    guests: List["Guest"] = relationship("Guest")
 
 
 class Guest(Base):
