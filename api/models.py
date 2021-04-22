@@ -1,8 +1,11 @@
+import datetime as dt
 import enum
+from typing import Optional
+
 from sqlalchemy import Column, DateTime, Enum, ForeignKey, Integer, String, func
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relation
-
+from sqlalchemy.orm.relationships import RelationshipProperty
 
 Base = declarative_base()
 
@@ -15,16 +18,16 @@ class DietChoices(enum.Enum):
 
 class Response(Base):
     __tablename__ = "responses"
-    created = Column(DateTime, server_default=func.now())
-    email = Column(String, primary_key=True)
-    comment = Column(String)
+    created: dt.datetime = Column(DateTime, server_default=func.now(), nullable=False)
+    email: str = Column(String, primary_key=True)
+    comment: Optional[str] = Column(String)
 
 
 class Guest(Base):
     __tablename__ = "guests"
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String)
-    diet = Column(Enum(DietChoices))
-    response_email = Column(Integer, ForeignKey(Response.email))
+    id: int = Column(Integer, primary_key=True, index=True)
+    name: str = Column(String, nullable=False)
+    diet: DietChoices = Column(Enum(DietChoices), nullable=False)
+    response_email: str = Column(String, ForeignKey(Response.email), nullable=False)
 
-    response = relation(Response, backref="guests")
+    response: Response = relation(Response, uselist=False, backref="guests")

@@ -22,5 +22,6 @@ class Response(BaseModel):
 
 class DatabaseResponse(Response):
     guests: List[DatabaseGuest] = []
+
     class Config:
         orm_mode = True

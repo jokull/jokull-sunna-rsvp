@@ -4,7 +4,9 @@ from asgiproxy.context import ProxyContext
 from asgiproxy.proxies.http import proxy_http
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+from starlette.responses import FileResponse
 
+from .database import engine
 from .config import config, DEBUG
 from .endpoints import app as api_app
 
@@ -22,7 +24,16 @@ async def frontend_proxy(scope, receive, send):
 
 
 app = FastAPI()
-app.mount('/api', api_app)
+app.mount("/api", api_app)
+
+
+@app.get("/_db")
+def download_sqlite_db():
+    return FileResponse(
+        engine.url.database,
+        headers={"content-disposition": f'attachment; filename="sqlite.db"'},
+        media_type="application/x-sqlite3",
+    )
 
 
 if DEBUG:

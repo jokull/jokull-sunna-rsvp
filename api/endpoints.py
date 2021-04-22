@@ -17,7 +17,7 @@ def get_responses(db: Session = Depends(get_db)):
 
 @app.get("/responses/{email}", response_model=schemas.DatabaseResponse)
 def read_response(email: str, db: Session = Depends(get_db)):
-    db_response = db.get(models.Response, email)
+    db_response = db.query(models.Response).get(email)
     if db_response is None:
         return HTTPException(404)
     return db_response
@@ -26,11 +26,9 @@ def read_response(email: str, db: Session = Depends(get_db)):
 @app.post("/responses", response_model=schemas.DatabaseResponse)
 def create_response(response: schemas.Response, db: Session = Depends(get_db)):
     email = response.email.strip().lower()
-    db_response = db.get(models.Response, email)
+    db_response = db.query(models.Response).get(email)
     if db_response is None:
-        db_response = models.Response(
-            email=email, comment=response.comment or None
-        )
+        db_response = models.Response(email=email, comment=response.comment or None)
     else:
         db_response.comment = response.comment or None
         for guest in db_response.guests or []:
@@ -42,7 +40,8 @@ def create_response(response: schemas.Response, db: Session = Depends(get_db)):
     db.refresh(db_response)
     return db_response
 
+
 @app.get("/_reset")
-def _reset(db: Session = Depends(get_db)):
+def reset(db: Session = Depends(get_db)):
     models.Base.metadata.drop_all(engine)
     models.Base.metadata.create_all(engine)
