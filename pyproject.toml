@@ -12,7 +12,7 @@ uvicorn = {extras = ["standard"], version = "^0.13.3"}
 asgiproxy = "^0.0"
 aiofiles = "^0.6.0"
 importlib-metadata = "^3.7.3"
-SQLAlchemy = {version = "^1.4", extras = ["mypy"]}
+SQLAlchemy = {version = "1.4.9", extras = ["mypy"]}
 
 [tool.poetry.dev-dependencies]
 black = "^20.8b1"
