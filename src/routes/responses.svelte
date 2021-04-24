@@ -1,8 +1,7 @@
 <script context="module">
-  // export const prerender = true;
+  export const prerender = true;
   import { browser } from "$app/env";
   import { onMount } from "svelte";
-  console.log("HEY");
 </script>
 
 <script>
@@ -10,14 +9,12 @@
   let guestCount = 0;
   let dietCounts = { pescatarian: 0, meat: 0, vegan: 0 };
 
-  console.log("browser", browser);
   if (browser) {
     onMount(async () => {
       const url = `/api/responses`;
       const res = await fetch(url);
 
       responses = await res.json();
-      console.log(responses);
       responses.forEach((r) => {
         guestCount += r.guests.length;
         r.guests.forEach((g) => {
