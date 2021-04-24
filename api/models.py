@@ -21,7 +21,7 @@ class Response(Base):
     email: str = Column(String, primary_key=True, unique=True)
     comment: Optional[str] = Column(String)
 
-    guests: List["Guest"] = relationship("Guest")
+    guests: List["Guest"] = relationship("Guest", back_populates="response")
 
 
 class Guest(Base):
@@ -31,4 +31,4 @@ class Guest(Base):
     diet: DietChoices = Column(Enum(DietChoices), nullable=False)
     response_email: str = Column(String, ForeignKey(Response.email), nullable=False)
 
-    response: Response = relationship(Response, lazy="joined")
+    response: Response = relationship(Response, lazy="joined", back_populates="guests")
