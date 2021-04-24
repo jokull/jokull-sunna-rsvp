@@ -31,10 +31,11 @@ class ProxyConfig(BaseURLProxyConfigMixin, ProxyConfig):
             client_request=client_request,
             data=data,
         )
-        return options | {
-            'url': url,
-            'params': None,
-        }
+        options.update({
+            'url': url, 
+            'params': None, 
+        })
+        return options
 
     def process_upstream_headers(
         self, *, scope: Scope, proxy_response: aiohttp.ClientResponse
