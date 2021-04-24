@@ -7,8 +7,7 @@ from sqlalchemy.orm import sessionmaker
 from .config import config
 
 engine = create_async_engine(
-    config("DATABASE_URL"),
-    connect_args={"check_same_thread": False},
+    config("DATABASE_URL"), connect_args={"check_same_thread": False}
 )
 SessionLocal = sessionmaker(
     bind=engine,

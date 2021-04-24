@@ -1,4 +1,3 @@
-from typing import cast
 from urllib.parse import urljoin
 
 import aiohttp
@@ -25,17 +24,19 @@ class ProxyConfig(BaseURLProxyConfigMixin, ProxyConfig):
     ) -> dict:
         url = urljoin(self.upstream_base_url, scope["path"])
         if query_string := scope.get("query_string"):
-            url += '?{}'.format(query_string.decode("utf-8"))
+            url += "?{}".format(query_string.decode("utf-8"))
         options = super().get_upstream_http_options(
             scope=scope,
             client_request=client_request,
             data=data,
         )
-        options.update({
-            'url': url, 
-            'params': None, 
-        })
-        return options
+        return dict(
+            options,
+            **{
+                "url": url,
+                "params": None,
+            },
+        )
 
     def process_upstream_headers(
         self, *, scope: Scope, proxy_response: aiohttp.ClientResponse
@@ -44,7 +45,7 @@ class ProxyConfig(BaseURLProxyConfigMixin, ProxyConfig):
             scope=scope, proxy_response=proxy_response
         )
         headers = headers.copy()
-        del headers['date']
+        del headers["date"]
         return headers
 
 
@@ -52,7 +53,9 @@ context = ProxyContext(config=ProxyConfig())
 
 
 async def frontend_proxy(scope, receive, send):
-    response = await proxy_http(context=context, scope=scope, receive=receive, send=send)
+    response = await proxy_http(
+        context=context, scope=scope, receive=receive, send=send
+    )
     return response
 
 
@@ -64,9 +67,10 @@ app.mount("/api", api_app)
 def download_sqlite_db():
     return FileResponse(
         engine.url.database,
-        headers={"content-disposition": f'attachment; filename="sqlite.db"'},
+        headers={"content-disposition": 'attachment; filename="sqlite.db"'},
         media_type="application/x-sqlite3",
     )
+
 
 if DEBUG:
     app.mount("/", frontend_proxy)
