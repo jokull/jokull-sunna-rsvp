@@ -1,28 +1,19 @@
-<script context="module">
-  export const prerender = true;
-  import { browser } from "$app/env";
-  import { onMount } from "svelte";
-</script>
-
 <script>
   let responses = [];
   let guestCount = 0;
   let dietCounts = { pescatarian: 0, meat: 0, vegan: 0 };
+  import { onMount } from "svelte";
 
-  if (browser) {
-    onMount(async () => {
-      const url = `/api/responses`;
-      const res = await fetch(url);
-
-      responses = await res.json();
-      responses.forEach((r) => {
-        guestCount += r.guests.length;
-        r.guests.forEach((g) => {
-          dietCounts[g.diet] += 1;
-        });
+  onMount(async () => {
+    const res = await fetch("/api/responses");
+    responses = await res.json();
+    responses.forEach((r) => {
+      guestCount += r.guests.length;
+      r.guests.forEach((g) => {
+        dietCounts[g.diet] += 1;
       });
     });
-  }
+  });
 </script>
 
 <svelte:head>

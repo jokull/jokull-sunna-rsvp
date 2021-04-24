@@ -1,18 +1,13 @@
-from typing import cast
-from urllib.parse import urljoin
-
-import aiohttp
+from typing import List
 from asgiproxy.config import BaseURLProxyConfigMixin, ProxyConfig
 from asgiproxy.context import ProxyContext
-from asgiproxy.proxies.http import Scope, proxy_http
+from asgiproxy.proxies.http import proxy_http
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from multidict import CIMultiDictProxy
-from starlette.requests import Request
 from starlette.responses import FileResponse
 
-from .config import DEBUG, config
 from .database import engine
+from .config import config, DEBUG
 from .endpoints import app as api_app
 
 
@@ -20,39 +15,12 @@ class ProxyConfig(BaseURLProxyConfigMixin, ProxyConfig):
     upstream_base_url = config("FRONTEND_URL", default=None)
     rewrite_host_header = config("API_HOST", default=None)
 
-    def get_upstream_http_options(
-        self, *, scope: Scope, client_request: Request, data
-    ) -> dict:
-        url = urljoin(self.upstream_base_url, scope["path"])
-        if query_string := scope.get("query_string"):
-            url += '?{}'.format(query_string.decode("utf-8"))
-        options = super().get_upstream_http_options(
-            scope=scope,
-            client_request=client_request,
-            data=data,
-        )
-        return options | {
-            'url': url,
-            'params': None,
-        }
-
-    def process_upstream_headers(
-        self, *, scope: Scope, proxy_response: aiohttp.ClientResponse
-    ) -> CIMultiDictProxy:
-        headers = super().process_upstream_headers(
-            scope=scope, proxy_response=proxy_response
-        )
-        headers = headers.copy()
-        del headers['date']
-        return headers
-
 
 context = ProxyContext(config=ProxyConfig())
 
 
 async def frontend_proxy(scope, receive, send):
-    response = await proxy_http(context=context, scope=scope, receive=receive, send=send)
-    return response
+    return await proxy_http(context=context, scope=scope, receive=receive, send=send)
 
 
 app = FastAPI()
@@ -67,7 +35,8 @@ def download_sqlite_db():
         media_type="application/x-sqlite3",
     )
 
+
 if DEBUG:
     app.mount("/", frontend_proxy)
 else:
-    app.mount("/", StaticFiles(directory="build", html=True), name="static")
+    app.mount("/", StaticFiles(directory="__sapper__/export", html=True), name="static")
