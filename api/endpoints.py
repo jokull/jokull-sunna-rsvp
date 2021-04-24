@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from . import models, schemas
-from .database import engine, get_db
+from .database import get_db
 
 app = FastAPI()
 
@@ -52,15 +52,8 @@ async def create_response(
         for guest in db_response.guests or []:
             await db.delete(guest)
     db.add(db_response)
-    for guest in response.guests:
+    for guest in response.guests:  # type: ignore
         db.add(models.Guest(name=guest.name, diet=guest.diet, response_email=email))
     await db.commit()
     await db.refresh(db_response)
     return db_response
-
-
-@app.get("/_reset")
-def reset(db: AsyncSession = Depends(get_db)):
-    with engine.begin() as conn:
-        conn.run_sync(models.Base.metadata.drop_all)
-        conn.run_sync(models.Base.metadata.create_all)

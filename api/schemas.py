@@ -1,4 +1,5 @@
-from typing import List, Optional
+from typing import Optional, Sequence
+
 from pydantic import BaseModel
 
 from .models import DietChoices
@@ -17,11 +18,11 @@ class DatabaseGuest(Guest):
 class Response(BaseModel):
     email: str
     comment: Optional[str] = None
-    guests: List[Guest] = []
+    guests: Sequence[Guest] = []
 
 
 class DatabaseResponse(Response):
-    guests: List[DatabaseGuest] = []
+    guests: Sequence[DatabaseGuest] = []
 
     class Config:
         orm_mode = True

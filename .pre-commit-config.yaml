@@ -13,8 +13,15 @@ repos:
     rev: v0.812
     hooks:
       - id: mypy
+        files: ^api
+        args: [--config-file, mypy.ini]
         additional_dependencies:
           [
+            fastapi,
+            starlette,
+            multidict,
+            pydantic,
+            aiohttp,
             SQLAlchemy==1.4.11,
             "https://github.com/sqlalchemy/sqlalchemy2-stubs/archive/refs/heads/master.zip",
           ]

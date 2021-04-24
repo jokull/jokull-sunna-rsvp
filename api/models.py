@@ -1,6 +1,6 @@
 import datetime as dt
 import enum
-from typing import Optional, List
+from typing import List, Optional
 
 from sqlalchemy import Column, DateTime, Enum, ForeignKey, Integer, String, func
 from sqlalchemy.ext.declarative import declarative_base
