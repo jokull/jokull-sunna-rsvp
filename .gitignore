@@ -3,8 +3,8 @@
 
 # Svelte
 node_modules
-/.svelte
-/build
+.svelte
+build
 dist
 yarn-error.log
 yarn-error.log
