@@ -55,7 +55,7 @@
     </div>
     <div>
       <button
-        class="p-1 px-2.5 mr-2 rounded-full text-xs font-medium bg-gray-100 text-gray-600"
+        class="p-1 px-2.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600"
         on:click={() => {
           toggleDeleted(visible);
         }}>{visible ? "Fela" : "Sýna"}</button

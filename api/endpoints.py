@@ -56,6 +56,11 @@ async def update_response(
     return db_response
 
 
+async def _delete_guests(db: AsyncSession, response: models.Response) -> None:
+    for guest in response.guests or []:
+        await db.delete(guest)
+
+
 @app.post("/responses", response_model=schemas.DatabaseResponse)
 async def create_response(
     response: schemas.Response, db: AsyncSession = Depends(get_db)
@@ -66,10 +71,9 @@ async def create_response(
         db_response = models.Response(email=email, comment=response.comment or None)
     else:
         db_response.comment = response.comment or None
-        for guest in db_response.guests or []:
-            await db.delete(guest)
+        await _delete_guests(db, db_response)
     db.add(db_response)
-    for guest in response.guests:  # type: ignore
+    for guest in response.guests:
         db.add(models.Guest(name=guest.name, diet=guest.diet, response_email=email))
     await db.commit()
     await db.refresh(db_response)
