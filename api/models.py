@@ -20,8 +20,11 @@ class Response(Base):
     created: dt.datetime = Column(DateTime, server_default=func.now(), nullable=False)
     email: str = Column(String, primary_key=True, unique=True)
     comment: Optional[str] = Column(String)
+    deleted: Optional[dt.datetime] = Column(DateTime)
 
-    guests: List["Guest"] = relationship("Guest", back_populates="response")
+    guests: List["Guest"] = relationship(
+        "Guest", lazy="joined", back_populates="response"
+    )
 
 
 class Guest(Base):

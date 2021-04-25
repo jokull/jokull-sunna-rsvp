@@ -1,3 +1,4 @@
+import datetime as dt
 from typing import Optional, Sequence
 
 from pydantic import BaseModel
@@ -21,8 +22,13 @@ class Response(BaseModel):
     guests: Sequence[Guest] = []
 
 
+class ResponseUpdate(BaseModel):
+    deleted: bool
+
+
 class DatabaseResponse(Response):
     guests: Sequence[DatabaseGuest] = []
+    deleted: Optional[dt.datetime]
 
     class Config:
         orm_mode = True
